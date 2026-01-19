@@ -1,101 +1,88 @@
 /* --- Main Container Styling --- */
 .custom-container {
 	max-width: 100%;
+	/* Padding adjusted to match the top spacing and leave room for V-cut */
 	padding: 80px 30px 100px; 
 	text-align: left; 
 	color: #fff;
+	/* Main dark green gradient from the image */
 	background: linear-gradient(180deg, #003020 0%, #00553f 100%); 
 	box-sizing: border-box;
 	position: relative;
+	/* overflow: hidden is critical for clip-path */
 	overflow: hidden; 
 	box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
 	
-	clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%); 
+	/* --- V-Cut on the main box, leaving the area below white/transparent --- */
+    /* This creates the top dark green area and the V-cut at the bottom */
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%); 
 }
 
 /* --- V-Layers Design using ::before Pseudo-element --- */
+/* This element creates the layered green/grey fan effect from image 1000463765.jpg */
 .custom-container::before {
     content: "";
     position: absolute;
-    bottom: -15%;
+    bottom: -15%; /* Positioned below the V-tip */
     left: 0;
     width: 100%;
-    height: 400px;
-    z-index: 1;
-    pointer-events: none;
-    transform: perspective(200px) rotateX(10deg);
+    height: 400px; /* Large height to allow the gradient to spread */
+    z-index: 1; /* Below the text and buttons */
+    pointer-events: none; /* Prevents blocking clicks */
+    transform: perspective(200px) rotateX(10deg); /* Optional: slight perspective for depth */
 
+    /* The main fan effect (V) is created with a Conic Gradient */
     background: 
         conic-gradient(from 180deg at 50% 100%, 
             #004d3e 0deg, 
             #006b52 10deg,
             #7cb97c 20deg,
-            #e0ffe0 25deg,
+            #e0ffe0 25deg, /* Brightest line at center */
             #7cb97c 30deg, 
             #006b52 40deg,
             #004d3e 50deg,
-            #003020 70deg,
-            #003020 110deg,
+            #003020 70deg, /* Darkest green */
+            #003020 110deg, /* Repeat dark part */
             #004d3e 130deg,
             #006b52 140deg,
             #7cb97c 150deg,
-            #e0ffe0 155deg,
+            #e0ffe0 155deg, /* Brightest line at center (mirror) */
             #7cb97c 160deg,
             #006b52 170deg,
             #004d3e 180deg
         );
     
+    /* Clip the pseudo-element to look like the image (a fan coming from the center bottom) */
     clip-path: polygon(0 100%, 100% 100%, 50% 0);
-    opacity: 0.7;
+    opacity: 0.7; /* Blend with the background */
 }
 
-/* Ensure the text, search box, and buttons are on top */
+/* Ensure the text, search box, and buttons are on top of the V-layers */
 .custom-container h1, .custom-container p, .custom-search-box, .custom-buttons {
     position: relative;
     z-index: 2; 
 }
 
-/* --- Enhanced Highlight Styling --- */
+
+/* --- Heading and Text Styling --- */
+.custom-container h1 {
+	font-size: 50px; 
+	margin-bottom: 5px; 
+	font-family: 'Arial Black', Arial, sans-serif; 
+	font-weight: 900;
+	line-height: 1.1;
+}
+
 .highlight {
 	color: #e9ff00; 
 	display: block; 
 	font-weight: 900;
-	position: relative;
-	padding-bottom: 5px;
-}
-
-.highlight::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, #e9ff00, transparent);
-    border-radius: 2px;
-}
-
-/* --- Feature Highlights in Paragraph --- */
-.feature-highlight {
-    background: rgba(233, 255, 0, 0.15);
-    color: #e0ffe0;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-    border-left: 3px solid #e9ff00;
-}
-
-.company-highlight {
-    color: #e9ff00;
-    background: rgba(233, 255, 0, 0.1);
-    padding: 2px 10px;
-    border-radius: 4px;
-    border: 1px solid rgba(233, 255, 0, 0.3);
 }
 
 .custom-container p {
 	font-size: 18px; 
 	margin-top: 20px;
+	/* Reduced margin below paragraph to bring search box closer */
 	margin-bottom: 30px; 
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	line-height: 1.6;
@@ -104,13 +91,15 @@
 	margin-right: auto;
 }
 
-/* --- Search Box Styling --- */
+/* --- Search Box Styling (Centralized) --- */
 .custom-search-box {
 	position: relative;
+	/* Removed margin: 0 auto; to align left with the text */
 	margin-left: 0; 
 	margin-right: auto;
 	max-width: 500px;
-	width: 100%;
+	width: 100%; /* Use full width up to max-width */
+	/* Added bottom margin to separate from buttons */
 	margin-bottom: 40px; 
 }
 
@@ -128,6 +117,7 @@
 
 .custom-search-box input:focus {
 	box-shadow: 0 4px 20px rgba(0, 128, 0, .3);
+	/* Removed transform: scale(1.02) as it can mess up layout */
 }
 
 .gradient-submit {
@@ -149,12 +139,14 @@
 
 .gradient-submit:hover {
 	background: linear-gradient(135deg, #004c4c 0%, #00703c 100%);
-	transform: translateY(-50%) scale(1.03);
+	transform: translateY(-50%) scale(1.03); /* Slight hover scale */
 	box-shadow: 0 4px 15px rgba(0, 0, 0, .3);
 }
 
-/* --- Buttons Styling --- */
+
+/* --- Buttons Styling (Matching Image 1000463764.jpg) --- */
 .custom-buttons {
+	/* Reduced margin-top as search box is above */
 	margin-top: 0; 
 	display: flex;
 	justify-content: flex-start; 
@@ -171,8 +163,14 @@
 	font-weight: 700;
 	color: #fff;
 	text-decoration: none;
+	
+	/* Corrected button shape to be fully rounded capsule, as per the image */
 	border-radius: 50px; 
+	
+	/* Inner dark green gradient background */
 	background: linear-gradient(to right, #004d3e, #006b52); 
+	
+	/* Lighter border/glow effect from the image */
 	box-shadow: 
         0 0 0 2px rgba(255, 255, 255, 0.4), 
 	    0 0 0 4px rgba(0, 150, 100, 0.5), 
@@ -181,6 +179,7 @@
 	border: none;
 }
 
+/* Hover effect */
 .custom-btn:hover {
 	transform: translateY(-1px);
 	background: linear-gradient(to right, #006b52, #004d3e); 
